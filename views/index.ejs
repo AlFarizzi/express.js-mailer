@@ -1,0 +1,133 @@
+<%- include('templates/header.ejs') %>
+<div class="container mt-4" x-data="{tab: 1}">
+        <div class="card text-center">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link" :class="{active: tab === 1}" href="#" @click="tab = 1">Email</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" :class="{active: tab === 2}" href="#" @click="tab = 2">Riwayat Pengiriman</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body"  x-show="tab === 1" >
+                <form action="">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label style="float: left !important;" >Pengirim</label>
+                            <input type="email" class="form-control" id="pengirim" placeholder="Masukan Email Pengirim">                  
+                        </div>
+                        <div class="col form-group">
+                            <label style="float: left !important;" >Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Masukan Password Email">
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label style="float: left !important;" >Penerima</label>
+                        <input type="email" id="penerima" class="form-control" placeholder="Masukan Email Penerima">
+                      </div>
+                    <div class="form-group">
+                        <label style="float: left !important;" >Subject</label>
+                        <input id="subject" type="text" name="" class="form-control" placeholder="Masukan Subject Email">
+                    </div>
+                    <div class="form-group">
+                      <label style="float: left !important;" >Pesan</label>
+                      <textarea  class="form-control" id="pesan" cols="30" rows="10"></textarea>
+                    </div>
+                    <a style="float: left !important;" href="#" id="kirim" class="btn btn-primary"> Kirim Email </a>
+                </form>
+              </div>
+
+              <div class="card-body"  x-show="tab === 2" >
+                    <table id="riwayat" class="display">
+                        <thead>
+                            <tr>
+                                <th>Pengirim</th>
+                                <th>Penerima</th>
+                                <th>Subject</th>
+                                <th>Tanggal</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <% data.history.forEach(history => { %>
+                                <tr>
+                                  <td><%= history.pengirim %></td>
+                                  <td><%= history.penerima %></td>
+                                  <td><%= history.subject %></td>
+                                  <td><%= history.tanggal %></td>
+                                  <td>
+                                    <a href="#" class="btn btn-primary" id="detail_btn"  data-pengirim="<%= history.pengirim %>" data-penerima="<%= history.penerima %>" data-subject="<%= history.subject %>" data-pesan="<%= history.pesan %>" data-toggle="modal" data-target="#detail" >Detail</a>
+                                  </td>
+                                </tr>
+                          <% }) %>
+                        </tbody>
+                    </table>
+              </div>
+          </div>
+    </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+            <div class="form-group">
+                <label for="">Nama Lengkap</label>
+                <input type="text" id="nama" class="form-control" placeholder="Masukan Nama Lengkap">
+            </div>
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Masukan Email">
+            </div>
+            <a href="#" id="tambah" class="btn btn-primary btn-sm"> Tambah Email </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="col form-gorup">
+            <label style="float:left !important" > Pengirim </label>
+            <input type="text" class="form-control" id="detail_pengirim" disabled>
+          </div>
+          <div class="col form-gorup">
+            <label style="float:left !important" > Penerima </label>
+            <input type="text" class="form-control" id="detail_penerima" disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="float: left !important;">Subject</label>
+          <input type="text" class="form-control" id="detail_subject" disabled>
+        </div>
+        <div class="form-group">
+          <label style="float: left !important" >Pesan</label>
+          <textarea class="form-control" id="detail_pesan" disabled cols="30" rows="10"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('templates/footer.ejs') %>
